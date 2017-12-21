@@ -1,10 +1,19 @@
 # Nock
 
-[![Build Status](https://travis-ci.org/node-nock/nock.svg?branch=master)](https://travis-ci.org/node-nock/nock)
-[![Coverage Status](https://coveralls.io/repos/github/node-nock/nock/badge.svg?branch=master)](https://coveralls.io/github/node-nock/nock?branch=master)
-[![Known Vulnerabilities](https://snyk.io/test/npm/nock/badge.svg)](https://snyk.io/test/npm/nock)
-[![Chat](https://img.shields.io/badge/help-gitter-eb9348.svg?style=flat)](https://gitter.im/node-nock/nock)
-
+> [![npm version](https://badge.fury.io/js/%40aleung%2Fnock.png)](https://www.npmjs.com/package/@aleung/nock)
+>
+> This is a fork of [node-nock](https://github.com/node-nock/nock).
+>
+> The only difference to original one is that it fixes issue [#754](https://github.com/node-nock/nock/issues/754) -- timeout doesn't work with [request](https://www.npmjs.com/package/request) 2.76.0+. Detail is explained in [PR #859](https://github.com/node-nock/nock/pull/859#issuecomment-290594653). 
+>
+> If you don't use nock to test timeout behavior with request 2.76.0+, you should use the original one.
+>
+> I maintain this fork for my own purpose. No guarantee to rebase on origin latest release in time.
+>
+> ```
+> npm install @aleung/nock
+> ```
+>
 
 Nock is an HTTP mocking and expectations library for Node.js
 
@@ -27,7 +36,7 @@ For instance, if a module performs HTTP requests to a CouchDB server or makes HT
   * [Specifying request query string](#specifying-request-query-string)
   * [Specifying replies](#specifying-replies)
       - [Access original request and headers](#access-original-request-and-headers)
-    + [Replying with errors](#replying-with-errors)
+  + [Replying with errors](#replying-with-errors)
   * [Specifying headers](#specifying-headers)
     + [Header field names are case-insensitive](#header-field-names-are-case-insensitive)
     + [Specifying Request Headers](#specifying-request-headers)
@@ -99,14 +108,14 @@ $ npm install nock
 
 ## Node version support
 
-| node | nock |
-|---|---|
+| node | nock      |
+| ---- | --------- |
 | 0.10 | up to 8.x |
 | 0.11 | up to 8.x |
 | 0.12 | up to 8.x |
-| 4 | 9.x |
-| 5 | up to 8.x |
-| 6 | 9.x |
+| 4    | 9.x       |
+| 5    | up to 8.x |
+| 6    | 9.x       |
 
 # Use
 

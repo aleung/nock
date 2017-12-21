@@ -1,5 +1,5 @@
 {
-  "name": "nock",
+  "name": "@aleung/nock",
   "description": "HTTP Server mocking for Node.js",
   "tags": [
     "Mock",
@@ -7,7 +7,7 @@
     "testing",
     "isolation"
   ],
-  "version": "0.0.0-development",
+  "version": "9.1.5",
   "author": "Pedro Teixeira <pedro.teixeira@gmail.com>",
   "contributors": [
     {
@@ -157,10 +157,10 @@
   ],
   "repository": {
     "type": "git",
-    "url": "https://github.com/node-nock/nock.git"
+    "url": "https://github.com/aleung/nock.git"
   },
   "bugs": {
-    "url": "http://github.com/node-nock/nock/issues"
+    "url": "http://github.com/aleung/nock/issues"
   },
   "engines": [
     "node >= 4.0"
