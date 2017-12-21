@@ -5,7 +5,6 @@ var nock    = require('../.')
   , http    = require('http')
   , https   = require('https')
   , _       = require('lodash')
-  , debug   = require('debug')('nock.test_recorder')
   , mikealRequest = require('request')
   , superagent = require('superagent')
   , rest = require('restler');
@@ -280,8 +279,7 @@ test('records nonstandard ports', function(t) {
 
   //  Create test http server and perform the tests while it's up.
   var testServer = http.createServer(function(req, res) {
-    res.write(RESPONSE_BODY);
-    res.end();
+    res.end(RESPONSE_BODY);
   }).listen(8081, function(err) {
 
     t.equal(err, undefined);
@@ -721,6 +719,29 @@ test('includes query parameters from superagent', {skip: process.env.AIRPLANE}, 
     });
 });
 
+test('encodes the query parameters when not outputing objects', {skip: process.env.AIRPLANE}, function(t) {
+
+  nock.restore();
+  nock.recorder.clear();
+  t.equal(nock.recorder.play().length, 0);
+
+  nock.recorder.rec({
+    dont_print: true,
+    output_objects: false
+  });
+
+  superagent.get('http://google.com')
+    .query({q: 'test search++' })
+    .end(function(res) {
+      nock.restore();
+      var recording = nock.recorder.play();
+      t.true(recording.length >= 1);
+      t.true(recording[0].indexOf('test%20search%2B%2B') !== -1);
+      t.end();
+    });
+
+});
+
 test('works with clients listening for readable', {skip: process.env.AIRPLANE}, function(t) {
   nock.restore();
   nock.recorder.clear();
@@ -731,8 +752,7 @@ test('works with clients listening for readable', {skip: process.env.AIRPLANE}, 
 
   //  Create test http server and perform the tests while it's up.
   var testServer = http.createServer(function(req, res) {
-    res.write(RESPONSE_BODY);
-    res.end();
+    res.end(RESPONSE_BODY);
   }).listen(8081, function(err) {
 
     // t.equal(err, undefined);
@@ -813,7 +833,35 @@ test('outputs query string parameters using query()', {skip: process.env.AIRPLAN
   });
 });
 
-test('removes query params from from that path and puts them in query()', {skip: process.env.AIRPLANE}, function(t) {
+test('outputs query string arrays correctly', {skip: process.env.AIRPLANE}, function(t) {
+  nock.restore();
+  nock.recorder.clear();
+  t.equal(nock.recorder.play().length, 0);
+
+  nock.recorder.rec(true);
+
+  var makeRequest = function(callback) {
+    superagent
+      .get('https://example.com/')
+      .query({'foo':['bar', 'baz']})
+      .end(callback);
+  };
+
+  makeRequest(function(err, resp) {
+    t.ok(!err, err && err.message || 'no error');
+    t.ok(resp, 'have response');
+    t.ok(resp.headers, 'have headers');
+
+    var ret = nock.recorder.play();
+    t.equal(ret.length, 1);
+    t.type(ret[0], 'string');
+    var match = "\nnock('https://example.com:443', {\"encodedQueryParams\":true})\n  .get('/')\n  .query({\"foo\":[\"bar\",\"baz\"]})\n  .reply(";
+    t.equal(ret[0].substring(0, match.length), match);
+    t.end();
+  });
+});
+
+test('removes query params from that path and puts them in query()', {skip: process.env.AIRPLANE}, function(t) {
   nock.restore();
   nock.recorder.clear();
   t.equal(nock.recorder.play().length, 0);

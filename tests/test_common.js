@@ -12,6 +12,17 @@ tap.test('matchBody ignores new line characters from strings', function(t) {
   t.end()
 });
 
+tap.test('matchBody keeps new line characters if specs is a function', function(t) {
+  var body = "something //here is something more \n";
+  var bodyAsSpecParameter = null
+  var spec = function(bodyToTest) {
+    bodyAsSpecParameter = bodyToTest
+  }
+  matchBody(spec, body);
+  t.equal(bodyAsSpecParameter, body);
+  t.end()
+});
+
 tap.test('matchBody should not throw, when headers come node-fetch style as array', function(t) {
   var testThis = {
     headers: {
@@ -30,9 +41,7 @@ tap.test('matchBody should not ignore new line characters from strings when Cont
       'Content-Type': "multipart/form-data;"
     }
   }
-  var matched = matchBody.call(testThis, function (body) {
-    return body === str1;
-  }, str2);
+  var matched = matchBody.call(testThis, str1, str2);
   t.true(matched);
   t.end()
 });
@@ -45,9 +54,7 @@ tap.test('matchBody should not ignore new line characters from strings when Cont
       'Content-Type': ["multipart/form-data;"]
     }
   }
-  var matched = matchBody.call(testThis, function (body) {
-    return body === str1;
-  }, str2);
+  var matched = matchBody.call(testThis, str1, str2);
   t.true(matched);
   t.end()
 });
@@ -153,6 +160,11 @@ tap.test('deleteHeadersField deletes fields with case-insensitive field names', 
 tap.test('matchStringOrRegexp', function (t) {
   t.true(common.matchStringOrRegexp('to match', 'to match'), 'true if pattern is string and target matches');
   t.false(common.matchStringOrRegexp('to match', 'not to match'), 'false if pattern is string and target doesn\'t match');
+
+  t.true(common.matchStringOrRegexp(123, 123), 'true if pattern is number and target matches');
+
+  t.false(common.matchStringOrRegexp(undefined, 'to not match'), 'handle undefined target when pattern is string');
+  t.false(common.matchStringOrRegexp(undefined, /not/), 'handle undefined target when pattern is regex');
 
   t.ok(common.matchStringOrRegexp('to match', /match/), 'match if pattern is regex and target matches');
   t.false(common.matchStringOrRegexp('to match', /not/), 'false if pattern is regex and target doesn\'t match');
