@@ -7,7 +7,7 @@
     "testing",
     "isolation"
   ],
-  "version": "9.1.5",
+  "version": "9.1.51",
   "author": "Pedro Teixeira <pedro.teixeira@gmail.com>",
   "contributors": [
     {
@@ -166,6 +166,7 @@
     "node >= 4.0"
   ],
   "main": "./index",
+  "typings": "./index.d.ts",
   "dependencies": {
     "chai": ">=1.9.2 <4.0.0",
     "debug": "^2.2.0",
