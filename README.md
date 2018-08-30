@@ -1,18 +1,11 @@
 # Nock
 
-> [![npm version](https://badge.fury.io/js/%40aleung%2Fnock.png)](https://www.npmjs.com/package/@aleung/nock)
+> **Note: This module `@aleung/nock` is deprecated, 
+> since [PR #859](https://github.com/node-nock/nock/pull/859#issuecomment-290594653) had been merged into official nock.**
 >
 > This is a fork of [node-nock](https://github.com/node-nock/nock).
 >
 > The only difference to original one is that it fixes issue [#754](https://github.com/node-nock/nock/issues/754) -- timeout doesn't work with [request](https://www.npmjs.com/package/request) 2.76.0+. Detail is explained in [PR #859](https://github.com/node-nock/nock/pull/859#issuecomment-290594653). 
->
-> If you don't use nock to test timeout behavior with request 2.76.0+, you should use the original one.
->
-> I maintain this fork for my own purpose. No guarantee to rebase on origin latest release in time.
->
-> ```
-> npm install @aleung/nock
-> ```
 >
 
 Nock is an HTTP mocking and expectations library for Node.js
